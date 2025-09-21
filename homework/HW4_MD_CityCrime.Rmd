@@ -1,5 +1,7 @@
 ---
 title: "HW4 MD CityCrime"
+author: "Willis/Wells"
+date: 09-18-2025
 ---
 
 In this assignment, we will be working with a dataset of total crimes reported by Maryland cities for two consecutive years. You'll load the data, calculate the violent and property crime rates for each city for both years, and then calculate the percentage change in the crime rates between the two years. You'll also write a short story based on your findings.
@@ -38,18 +40,18 @@ Let's add two percentage change columns to your dataframe: one for violent crime
 ```{r}
 ```
 
-### Task 7: Describe Percentage Changes
+### Task 6: Describe Percentage Changes
 
 Look at the `md_cities_change` dataframe by clicking on it in the Environment tab in RStudio. Write a couple of sentences describing the percentage change results. What's more interesting here, the patterns or the outliers? What's the story in the data?
 
 ANSWER HERE
 
-### Task 8: Tell the Best Story
+### Task 7: Tell the Best Story
 
 Write up a lede and nutgraf of a story with the _best_ story idea you've found in this assignment. The lede should be a single sentence that summarizes the most important information in the data. The nutgraf should be a paragraph that provides more context and explains why the data is important.
 
 ANSWER HERE
 
-### Task 9: Save Your Work and Put it on GitHub
+### Task 8: Save Your Work and Put it on GitHub
 
 Save this notebook, then commit it to your local repository. Push the changes to your GitHub repository and submit the URL for this file in ELMS.
