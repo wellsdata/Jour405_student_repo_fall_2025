@@ -2,7 +2,7 @@
 title: "UMD Fees"
 date: 9-08-2025
 ---
-
+Your Name - Rob Wells
 Follow along with the demo to learn how to calculate percentage change using R and the Tidyverse. You should get started by loading the tidyverse in a new R block.
 
 
@@ -11,7 +11,7 @@ Janitor performs important data cleaning operations
 
 ```{r}
 library(tidyverse)
-#install.packages('janitor')
+install.packages('janitor')
 library(janitor)
 ```
 
@@ -19,6 +19,7 @@ library(janitor)
 
 
 ### Task 2: Load the UMD Fees dataset from https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/umd_fees.csv
+
 
 ```{r}
 umd_fees <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/umd_fees.csv") |> 
@@ -37,8 +38,9 @@ umd_fees_pct <- umd_fees |> mutate(pct_change = (fall_2024- fall_2021)/fall_2021
 ```{r}
 
 umd_fees |> 
-    summarize(mean_2024_fees = mean(fall_2024),
-            median_2024_fees = median(fall_2024)
+    summarize(mean_2021_fees = mean(fall_2021),
+            median_2024_fees = median(fall_2024,
+            mean_2024_fees = mean(fall_2021))
 )
 
 
