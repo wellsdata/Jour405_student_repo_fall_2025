@@ -1,21 +1,29 @@
 ---
 title: "Survey Weighting Exercise: Nonvoter Study Analysis"
 date: "2025-08-21"
+author: "Derek Willis/Rob Wells"
 ---
+
+**YOUR NAME HERE:**
+
+
 
 Activity: Belonging Survey Methods
 
-Let's revisit the summary of UMD's Belonging Survey, and look at the appendix in particular. Working in pairs or small groups, each person reads the appendix closely and identifies any statements that raise methodological concerns or are unclear. Discuss your findings, summarize your discussion and then submit no more than three most important concerns or questions you have and how they might impact the results of the Belonging Survey.
+Let's revisit the summary of UMD's Belonging Survey, and look at the appendix in particular. https://president.umd.edu/internal/belonging
 
-https://president.umd.edu/internal/belonging
+Working in pairs or small groups, each person reads the appendix closely and identifies any statements that raise methodological concerns or are unclear. Discuss your findings, summarize your discussion and then submit no more than three most important concerns or questions you have and how they might impact the results of the Belonging Survey.
 
 
+**Write your answer here:**
+
+#-------------------------------------------------------------------------------
+#Survey Weighting
+#-------------------------------------------------------------------------------
 
 
 ```{r setup, include=FALSE}
 library(knitr)
-install.packages("kableExtra")
-library(kableExtra)
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 library(tidyverse)
 
@@ -27,7 +35,7 @@ This notebook explores how survey weighting affects data analysis and interpreta
 
 ## What is Survey Weighting?
 
-Survey weighting is like adjusting the volume on different voices in a conversation to make sure everyone is heard equally. In survey research:
+Survey weighting is like adjusting the volume on different voices in a conversation to make sure everyone is heard equally. Think of it like running a mixing board at a concert. In survey research:
 
 - Some groups of people are more likely to answer surveys than others
 - This can make the survey sample different from the actual population
@@ -80,7 +88,10 @@ Before we dive into the analysis, let's examine the weights in our dataset to un
 ```{r examine-weights}
 # Summary statistics of weights
 summary(nonvoters_data$weight)
+```
 
+
+```{r}
 # Histogram of weights
 ggplot(nonvoters_data, aes(x = weight)) +
   geom_histogram(bins = 30, fill = "skyblue", color = "white") +
@@ -101,11 +112,11 @@ ggplot(nonvoters_data, aes(x = weight)) +
 
 **Questions:**
 
-1. What is the range of weights in this dataset?
+1. What is the range of weights in this dataset? **Write your answer here:**
 
-2. What does it mean when a respondent has a weight of 0.23? What about 3.04?
+2. What does it mean when a respondent has a weight of 0.23? What about 3.04? **Write your answer here:**
 
-3. Why might some respondents be weighted more heavily than others?
+3. Why might some respondents be weighted more heavily than others? **Write your answer here:**
 
 # Exercise 1: Voter Categories and Weighting
 
@@ -116,8 +127,7 @@ library(knitr)
 # Count of respondents by voter category
 nonvoters_data |>
   count(voter_category) |>
-  mutate(percentage = n / sum(n) * 100) |>
-  kable(digits = 1, col.names = c("Voter Category", "Count", "Percentage (%)"))
+  mutate(percentage = n / sum(n) * 100)
 ```
 
 **Explanation:** This table shows the breakdown of our sample by voting history. We can see that most respondents (44.1%) are "sporadic" voters, followed by "always" voters (31.0%), and "rarely/never" voters (24.9%).
@@ -156,14 +166,14 @@ unweighted_summary <- unweighted_by_voter_category |>
     "Unsure (%)" = pct_3
   )
 
-kable(unweighted_summary, digits = 1, caption = "Unweighted Voting Intentions by Voter Category")
+unweighted_summary
 ```
 
 **Explanation:**
 - This table shows the percentage of respondents in each voter category who said "Yes," "No," or "Unsure" when asked if they plan to vote
 - We calculated these percentages by simply counting responses and dividing by the total in each category
 - No weights have been applied yet—each respondent counts equally
-- Notice that even among "rarely/never" voters, a high percentage (71.8%) say they plan to vote in the upcoming election
+- Notice that even among "rarely/never" voters, a high percentage say they plan to vote in the upcoming election
 
 ## Part B: Weighted Analysis
 
@@ -198,7 +208,7 @@ weighted_summary <- weighted_by_voter_category |>
     "Unsure (%)" = pct_3
   )
 
-kable(weighted_summary, digits = 1, caption = "Weighted Voting Intentions by Voter Category")
+weighted_summary
 ```
 
 **Explanation:**
@@ -229,7 +239,7 @@ comparison <- unweighted_summary |>
     "Unsure (% point diff)" = unsure_diff
   )
 
-kable(comparison, digits = 1, caption = "Difference Between Weighted and Unweighted Results (percentage points)")
+comparison 
 ```
 
 **Explanation:**
@@ -240,8 +250,8 @@ kable(comparison, digits = 1, caption = "Difference Between Weighted and Unweigh
 
 **Answer These Questions:**
 
-1. Which voter category shows the biggest difference between weighted and unweighted results?
+1. Which voter category shows the biggest difference between weighted and unweighted results? **Write your answer here:**
 
-2. How might these differences affect reporting on likely voter turnout?
+2. How might these differences affect reporting on likely voter turnout? **Write your answer here:**
 
-3. Why do you think these differences exist? What does this tell us about who might be over or under-represented in the sample?
+3. Why do you think these differences exist? What does this tell us about who might be over or under-represented in the sample? **Write your answer here:**
