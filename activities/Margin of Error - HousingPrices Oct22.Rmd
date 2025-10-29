@@ -156,7 +156,12 @@ format(p_value, scientific = FALSE)
 
 ```
 
+t-test critical value
+```{r}
+critical_value <- qt(0.95, df = t_test_result$parameter)
+cat("\nCritical value:", critical_value,"\n")
 
+```
 
 ```{r}
 # Extract the p-value
@@ -206,4 +211,6 @@ print(conclusion)
 ## Task 6: What's the story?
 
 After disucssion the results, each person writes a couple of sentences for the top of a story about local officials' claims on the impact of the transit line and what the data says. Remember that there are lots of possible reasons that could influence the price of a home. Make your sentences newsy.
+
+
 
