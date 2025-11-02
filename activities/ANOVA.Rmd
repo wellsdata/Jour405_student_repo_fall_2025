@@ -1,6 +1,6 @@
 ---
 title: "ANOVA for Journalists: Analyzing College Admissions Test Scores"
-date: 8-22-2025
+date: 11-2-2025
 ---
 
 ```{r setup, include=FALSE}
@@ -60,10 +60,15 @@ admission_summary <- admissions_data |>
 print(admission_summary)
 ```
 
+Context: Fall 2024 midpoint SAT for University of Maryland was 1,465.
+
+
 **Task 3** Describe the data
 
 Write a couple of sentences describing the differences in SAT scores between types of colleges, using the descriptive statistics we just generated.
 
+
+**Task 3: Write your answer here:**
 
 
 ## Task 4: Visualize the Data
