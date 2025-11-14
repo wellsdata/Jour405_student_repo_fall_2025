@@ -1,7 +1,11 @@
 ---
 title: "Finding Stories in Prince George's County Daily Accident Data"
-author: "YOUR NAME"
+date: "11-13-2025"
 ---
+
+
+author: "YOUR NAME"
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
@@ -76,7 +80,7 @@ ggplot(accidents, aes(x = date, y = total)) +
 ### Task 1 (3 points)
 Looking at the time series visualization above, identify at least two noticeable patterns or anomalies. What questions would you want to investigate further based on this initial view of the data? How might these visual patterns translate into potential story angles?
 
-ANSWER HERE
+**Write your answer here**
 
 The daily data is quite noisy, so let's also look at weekly patterns:
 
@@ -100,7 +104,7 @@ day_of_week_summary <- accidents |>
   )
 
 # Display day of week summary
-day_of_week_summary |> kable(digits = 2)
+day_of_week_summary 
 
 # Visualize by day of week
 ggplot(accidents, aes(x = day_of_week, y = total)) +
@@ -115,7 +119,7 @@ ggplot(accidents, aes(x = day_of_week, y = total)) +
 ### Task 2 (2 points)
 Based on the day-of-week analysis, which day(s) have the highest and lowest average accidents? Why might these patterns exist?
 
-ANSWER HERE
+**Write your answer here**
 
 ## Calculating Z-Scores
 
@@ -133,8 +137,7 @@ accidents <- accidents |>
 # Display the data with z-scores
 accidents |>
   select(date, day_of_week, total, z_score) |>
-  head(10) |>
-  kable(digits = 2)
+  head(10) 
 ```
 
 ## Identifying Unusual Days
@@ -155,14 +158,13 @@ cat("Number of days with unusual accident counts:", nrow(unusual_days),
 # Display the top 10 most unusual days
 unusual_days |>
   head(10) |>
-  select(date, day_of_week, total, z_score) |>
-  kable(digits = 2)
+  select(date, day_of_week, total, z_score) 
 ```
 
 ### Task 3 (3 points)
 Choose one of the top 10 unusual days and research what might have happened on that date. Look for weather events, holidays, major incidents, or other factors that could explain the unusual number of accidents. Briefly describe your findings and how you would incorporate this context into a story.
 
-ANSWER HERE
+**Write your answer here**
 
 Let's visualize these unusual days:
 
@@ -204,14 +206,13 @@ unusual_dow <- accidents |>
 # Display the top unusual days adjusted for day of week
 unusual_dow |>
   head(10) |>
-  select(date, day_of_week, total, dow_mean, dow_z_score) |>
-  kable(digits = 2)
+  select(date, day_of_week, total, dow_mean, dow_z_score)
 ```
 
 ### Task 4 (3 points)
 Compare the days that have extreme z-scores overall versus those with extreme day-of-week z-scores. How do these lists differ? What journalistic insights can you draw from comparing these two different approaches to measuring "unusual" days?
 
-ANSWER HERE
+**Write your answer here**
 
 Let's see how many unusual days we have for each day of the week:
 
@@ -235,7 +236,7 @@ unusual_rates <- unusual_count_by_dow |>
   )
 
 # Display results
-unusual_rates |> kable(digits = 2)
+unusual_rates
 ```
 
 ## Monthly Patterns
@@ -283,14 +284,13 @@ unusual_monthly <- accidents |>
 # Display top days that are unusual for their month
 unusual_monthly |>
   head(10) |>
-  select(date, month_of_year, day_of_week, total, monthly_mean, monthly_z_score) |>
-  kable(digits = 2)
+  select(date, month_of_year, day_of_week, total, monthly_mean, monthly_z_score) 
 ```
 
 ### Task 5 (2 points)
 Based on the monthly pattern analysis, which months have the highest and lowest average accidents? Develop a hypothesis about why these seasonal patterns exist.
 
-ANSWER HERE
+**Write your answer here**
 
 ## Identifying Extreme Outliers
 
@@ -305,8 +305,7 @@ extreme_outliers <- accidents |>
 # Display extreme outliers
 if(nrow(extreme_outliers) > 0) {
   extreme_outliers |>
-    select(date, day_of_week, total, z_score) |>
-    kable(digits = 2)
+    select(date, day_of_week, total, z_score) 
 } else {
   cat("No days with z-scores beyond ±3 were found in the dataset.")
 }
@@ -315,7 +314,7 @@ if(nrow(extreme_outliers) > 0) {
 ### Task 6 (2 points)
 For the extreme outliers identified (z-scores beyond ±3), what do they have in common?
 
-ANSWER HERE
+**Write your answer here**
 
 ## Your Best Story Pitch
 
