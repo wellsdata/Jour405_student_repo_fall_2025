@@ -307,3 +307,32 @@ top_outliers
 Based on our z-score analysis, what are some potential angles for reporting? What would your next steps be and what would you tell an editor about your findings?
 
 **Write your answer here**
+
+
+
+```{r}
+
+mu <- 79        # mean height in inches
+sigma <- 3.89   # standard deviation in inches
+
+# Example: Calculate z-score for a specific height
+height <- 77    # example height in inches
+
+# Z-score formula: z = (x - mu) / sigma
+z_score <- (height - mu) / sigma
+z_score
+
+
+```
+
+```{r}
+
+mean_height <- 79      
+sd <- 3.89
+height <- 77  
+
+z_score <- (height - mean_height) / sd
+z_score
+
+```
+
