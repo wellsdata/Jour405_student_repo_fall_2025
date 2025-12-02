@@ -1,54 +1,38 @@
 ---
-title: "Regression2"
+title: "Regression and Beers"
 author: "Wells"
 date: "2025-12-02"
 output: html_document
 ---
 
+This is another exercise to break down how a simple linear regression works and how to use it in real life.
+The topic: beer.
 
+This following exercise comes from Diez, D., Cetinkaya-Rundel, M., & Barr, C. (2024). OpenIntro Statistics (4th ed.). http://www.openintro.org/redirect.php?go=os&referrer=os4_pdf, p 335
+
+
+Many people believe that gender, weight, drinking habits, and many other factors are much more important in predicting blood alcohol content (BAC) than simply considering the number of drinks a person consumed. Here we examine data from sixteen student volunteers at Ohio
+State University who each drank a randomly assigned number of cans of beer. These students were evenly divided between men and women, and they differed in weight and drinking habits. Thirty minutes later, a police officer measured their blood alcohol content (BAC) in grams of alcohol per deciliter of blood.
+
+
+
+Load libraries
 ```{r}
-# Set seed for reproducibility
-set.seed(456)
-
-# Create sample data for 16 students
-n <- 16
-
-# Generate number of beers (randomly assigned, typically 1-9 beers)
-beers <- sample(1:9, n, replace = TRUE)
-
-# Generate BAC values based on the regression equation with realistic noise
-# BAC = -0.0127 + 0.0180 * beers + error
-# We need to calibrate the error term to match the regression statistics
-
-# Create predicted values
-bac_predicted <- -0.0127 + 0.0180 * beers
-
-# Add random error with appropriate standard deviation
-# Residual standard error ≈ 0.020 (typical for this type of data)
-bac <- bac_predicted + rnorm(n, mean = 0, sd =  0.0265)
-
-# Ensure no negative BAC values
-bac <- pmax(bac, 0)
-
-# Create data frame
-bac_data <- data.frame(
-  student_id = 1:n,
-  beers = beers,
-  bac = bac
-)
-write_csv(bac_data, "bac_data.csv")
+library(tidyverse)
 ```
 
 
+Load data
 ```{r}
-bac_data <- read_csv("URL")
+bac_data <- read_csv("https://raw.githubusercontent.com/wellsdata/Jour405_student_repo_fall_2025/refs/heads/main/activities/bac%20regression/bac_data.csv")
 
 bac_data
 
+#Student #1 drank 5 beers and has a blood alcohol level of 0.13, etc
 ```
 
 
-
+# Linear Regression
 ```{r}
 # Run the regression
 model <- lm(bac ~ beers, data = bac_data)
@@ -58,66 +42,36 @@ cat("\n\nRegression Results:\n")
 print(summary(model))
 ```
 
-
+ Plot the data and the model line
 ```{r}
-
-# Create scatterplot with regression line
-plot(bac_data$beers, bac_data$bac,
-     xlab = "Number of Beers",
-     ylab = "Blood Alcohol Content (BAC)",
-     main = "BAC vs Number of Beers Consumed",
-     pch = 19,
-     col = "darkblue")
-
-# Add regression line
-abline(model, col = "red", lwd = 2)
-
-# Add text with regression equation
+# Create regression equation text
 eq_text <- sprintf("BAC = %.4f + %.4f * beers", 
                    coef(model)[1], coef(model)[2])
-legend("topleft", legend = eq_text, bty = "n", cex = 0.9)
+
+
+ggplot(bac_data, aes(x = beers, y = bac)) +
+  geom_point(color = "darkblue", size = 3) +
+  geom_smooth(method = "lm", se = FALSE, color = "red", linewidth = 1) +
+  labs(
+    x = "Number of Beers",
+    y = "Blood Alcohol Content (BAC)",
+    title = "BAC vs Number of Beers Consumed"
+  ) +
+  annotate("text", x = min(bac_data$beers), y = max(bac_data$bac), 
+           label = eq_text, hjust = 0, vjust = 1, size = 4) +
+  theme_minimal()
+
 ```
 
+**Task 1: Interpret the results of this regression. Answer the following questions:**
 
-```{r}
-# ===================================================================
-# EXERCISE QUESTION AND ANSWER
-# ===================================================================
+a) What the predictor or independent variable? What is the response or dependent variable? 
+b) What is the regression model asking and what does it tell us?
+c) Do the data provide strong evidence that drinking more cans of beer is associated with an increase in blood alcohol? 
+d) State the null and alternative hypotheses, report the p-value, and state your conclusion.
 
-cat("\n\n==========================================\n")
-cat("EXERCISE QUESTION:\n")
-cat("==========================================\n")
-cat("The correlation coefficient for number of cans of beer and BAC is 0.89.\n")
-cat("Calculate R² and interpret it in context.\n\n")
 
-# Calculate correlation coefficient from the data
-r <- cor(bac_data$beers, bac_data$bac)
+**Answer:**
 
-# Calculate R-squared
-r_squared <- r^2
 
-# Also get R-squared from the model
-model_r_squared <- summary(model)$r.squared
 
-cat("ANSWER:\n")
-cat("-------\n")
-cat(sprintf("Given: r = 0.89\n"))
-cat(sprintf("Calculation: R² = r² = (0.89)² = %.4f\n\n", 0.89^2))
-
-cat("From our regression model:\n")
-cat(sprintf("Actual r = %.4f\n", r))
-cat(sprintf("Actual R² = %.4f\n\n", model_r_squared))
-
-cat("INTERPRETATION IN CONTEXT:\n")
-cat("R² = 0.7921 means that approximately 79.2% of the variability\n")
-cat("in blood alcohol content (BAC) can be explained by the number\n")
-cat("of beers consumed. The remaining 20.8% of variability in BAC\n")
-cat("is due to other factors not captured by this simple model,\n")
-cat("such as gender, weight, drinking habits, metabolism, and\n")
-cat("time since last meal.\n")
-```
-
-Questions
-(a) Describe the relationship between the number of cans of beer and BAC.
-(b) Do the data provide strong evidence that drinking more cans of beer is associated with an increase in blood alcohol? State the null and alternative hypotheses, report the p-value, and state your conclusion.
-(c) Suppose we visit a bar, ask people how many drinks they have had, and also take their BAC. Do you think the relationship between number of drinks and BAC would be as strong as the relationship found in the Ohio State study?
