@@ -1,0 +1,123 @@
+---
+title: "Regression2"
+author: "Wells"
+date: "2025-12-02"
+output: html_document
+---
+
+
+```{r}
+# Set seed for reproducibility
+set.seed(456)
+
+# Create sample data for 16 students
+n <- 16
+
+# Generate number of beers (randomly assigned, typically 1-9 beers)
+beers <- sample(1:9, n, replace = TRUE)
+
+# Generate BAC values based on the regression equation with realistic noise
+# BAC = -0.0127 + 0.0180 * beers + error
+# We need to calibrate the error term to match the regression statistics
+
+# Create predicted values
+bac_predicted <- -0.0127 + 0.0180 * beers
+
+# Add random error with appropriate standard deviation
+# Residual standard error ≈ 0.020 (typical for this type of data)
+bac <- bac_predicted + rnorm(n, mean = 0, sd =  0.0265)
+
+# Ensure no negative BAC values
+bac <- pmax(bac, 0)
+
+# Create data frame
+bac_data <- data.frame(
+  student_id = 1:n,
+  beers = beers,
+  bac = bac
+)
+write_csv(bac_data, "bac_data.csv")
+```
+
+
+```{r}
+bac_data <- read_csv("URL")
+
+bac_data
+
+```
+
+
+
+```{r}
+# Run the regression
+model <- lm(bac ~ beers, data = bac_data)
+
+# Display regression results
+cat("\n\nRegression Results:\n")
+print(summary(model))
+```
+
+
+```{r}
+
+# Create scatterplot with regression line
+plot(bac_data$beers, bac_data$bac,
+     xlab = "Number of Beers",
+     ylab = "Blood Alcohol Content (BAC)",
+     main = "BAC vs Number of Beers Consumed",
+     pch = 19,
+     col = "darkblue")
+
+# Add regression line
+abline(model, col = "red", lwd = 2)
+
+# Add text with regression equation
+eq_text <- sprintf("BAC = %.4f + %.4f * beers", 
+                   coef(model)[1], coef(model)[2])
+legend("topleft", legend = eq_text, bty = "n", cex = 0.9)
+```
+
+
+```{r}
+# ===================================================================
+# EXERCISE QUESTION AND ANSWER
+# ===================================================================
+
+cat("\n\n==========================================\n")
+cat("EXERCISE QUESTION:\n")
+cat("==========================================\n")
+cat("The correlation coefficient for number of cans of beer and BAC is 0.89.\n")
+cat("Calculate R² and interpret it in context.\n\n")
+
+# Calculate correlation coefficient from the data
+r <- cor(bac_data$beers, bac_data$bac)
+
+# Calculate R-squared
+r_squared <- r^2
+
+# Also get R-squared from the model
+model_r_squared <- summary(model)$r.squared
+
+cat("ANSWER:\n")
+cat("-------\n")
+cat(sprintf("Given: r = 0.89\n"))
+cat(sprintf("Calculation: R² = r² = (0.89)² = %.4f\n\n", 0.89^2))
+
+cat("From our regression model:\n")
+cat(sprintf("Actual r = %.4f\n", r))
+cat(sprintf("Actual R² = %.4f\n\n", model_r_squared))
+
+cat("INTERPRETATION IN CONTEXT:\n")
+cat("R² = 0.7921 means that approximately 79.2% of the variability\n")
+cat("in blood alcohol content (BAC) can be explained by the number\n")
+cat("of beers consumed. The remaining 20.8% of variability in BAC\n")
+cat("is due to other factors not captured by this simple model,\n")
+cat("such as gender, weight, drinking habits, metabolism, and\n")
+cat("time since last meal.\n")
+```
+
+Questions
+(a) Describe the relationship between the number of cans of beer and BAC.
+(b) Do the data provide strong evidence that drinking more cans of beer is associated with an increase in blood alcohol? State the null and alternative hypotheses, report the p-value, and state your conclusion.
+(c) Suppose we visit a bar, ask people how many drinks they have had, and also take their BAC. Do you think the relationship between number of drinks and BAC would be as strong as the relationship found in the Ohio State study?
